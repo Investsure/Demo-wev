@@ -587,218 +587,140 @@ footer {
   </div>
   
   </div> 
-   <!DOCTYPE html>
-   <html lang="bn">
-   <head>
-   <meta charset="UTF-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-   <title>Join & Free Giveaway</title>
-   <style>
-   body {
-   font-family: 'Segoe UI', sans-serif;
-   background: linear-gradient(135deg, #1f1c2c, #928DAB);
-   color: white;
-   padding: 20px;
-   margin: 0;
-   }
-   .container {
-   max-width: 450px;
-   margin: auto;
-   background: rgba(255,255,255,0.1);
-   padding: 30px;
-   border-radius: 15px;
-   box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-   position: relative;
-   font-size: 16px;
-   }
-   h2, h3 {
-   text-align: center;
-   margin-bottom: 15px;
-   font-size: 24px;
-   }
-   .options {
-   display: flex;
-   flex-direction: column;
-   gap: 20px;
-   }
-   .option-btn {
-   background: linear-gradient(135deg, #00c6ff, #0072ff);
-   padding: 12px;
-   border: none;
-   color: white;
-   border-radius: 10px;
-   font-size: 18px;
-   font-weight: bold;
-   cursor: pointer;
-   transition: 0.3s ease;
-   }
-   .option-btn:hover {
-   background: linear-gradient(135deg, #0072ff, #00c6ff);
-   }
-   .hidden {
-   display: none;
-   }
-   input, textarea {
-   width: 100%;
-   padding: 12px;
-   margin: 10px 0;
-   border-radius: 10px;
-   background: rgba(255, 255, 255, 0.1);
-   color: white;
-   font-size: 16px;
-   }
-   input::placeholder, textarea::placeholder {
-   color: #ccc;
-   }
-   button.submit, .upload-btn {
-   background: linear-gradient(135deg, #00c6ff, #0072ff);
-   padding: 15px;
-   border: none;
-   color: white;
-   font-size: 18px;
-   font-weight: bold;
-   width: 100%;
-   border-radius: 10px;
-   cursor: pointer;
-   transition: 0.3s ease;
-   }
-   button.submit:hover, .upload-btn:hover {
-   background: linear-gradient(135deg, #0072ff, #00c6ff);
-   }
-   #msg {
-   text-align: center;
-   margin-top: 20px;
-   font-size: 18px;
-   color: #FFDD57;
-   }
-   .note {
-   font-size: 16px;
-   color: #ddd;
-   margin-bottom: 15px;
-   }
-   .upload-btn {
-   margin-top: 10px;
-   }
-   </style>
-   </head>
-   <body>
-   <div class="container">
-   <h2>🎁 Join & Free Giveaway</h2>
-   <h3>"সর্বপ্রথম একাউন্ট তৈরি করুন তারপর আপনার বোনাস দাবি করুন"</h3>
-   <div class="options">
-   <button class="option-btn" onclick="showCreateAccount()">1. Create an Account</button>
-   <button class="option-btn" onclick="showClaimBonus()">2. Claim Your Bonus</button>
-   </div><!-- Create Account Section -->
-   <div id="createAccount" class="hidden">
-   <p class="note">নিচের Go অপশন এ ক্লিক করে HGZY Game এ নতুন একাউন্ট তৈরি করুন এবং আপনার UID এবং প্রোফাইল এর একটা Screenshot নিন তারপর Claim your bonus অপশন এ সঠিক ভাবে জমা দিন।</p>
-   <a href="https://hgzy.org/#/register?invitationCode=54248806369" target="_blank">
-   <button class="submit">Go</button>
-   </a>
-   </div>
-   
-   <!-- Claim Bonus Section -->
-   <div id="claimForm" class="hidden">
-   <form id="bonusForm">
-   <input type="text" id="name" placeholder="আপনার নাম" required>
-   <input type="email" id="email" placeholder="আপনার ইমেইল" required>
-   <input type="text" id="telegram" placeholder="Telegram নাম্বার" required>
-   <input type="text" id="uid" placeholder="HGZY UID" required>
-   
-   <!-- Image Upload Input -->
-   <input type="file" id="screenshotInput" accept="image/*" required>
-   <button type="button" class="upload-btn" onclick="uploadImage()">Upload Screenshot</button>
-   <input type="text" id="screenshot" placeholder="Uploaded Screenshot Link" readonly required>
-   
-   <button class="submit" type="submit">বোনাস আবেদন করুন</button>
-   </form>
-   <p id="msg"></p>
-   </div>
-   
-   </div>
-   
-   <script>
-   // ImgBB API key and endpoint
-   const apiKey = "f2b8b8a5ae7d16cfdf9049d56507049d"; 
-   const apiEndpoint = "https://api.imgbb.com/1/upload";
-   
-   async function uploadImage() {
-   const fileInput = document.getElementById('screenshotInput');
-   const file = fileInput.files[0];
-   if (!file) {
-   alert("Please select an image!");
-   return;
-   }
-   
-   const formData = new FormData();
-   formData.append("image", file);
-   
-   try {
-   const response = await fetch(`${apiEndpoint}?key=${apiKey}`, {
-   method: 'POST',
-   body: formData
-   });
-   
-   const result = await response.json();
-   
-   if (result.success) {
-   const imageUrl = result.data.url;
-   document.getElementById('screenshot').value = imageUrl;
-   document.getElementById('msg').innerHTML = `<a href="${imageUrl}" target="_blank" style="color:lightgreen;">✅ Image uploaded successfully. Click here to view</a>`;
-   } else {
-   throw new Error("Image upload failed.");
-   }
-   } catch (error) {
-   console.error(error);
-   alert("Upload failed. Please try again.");
-   }
-   }
-   
-   const form = document.getElementById('bonusForm');
-   const msg = document.getElementById('msg');
-   
-   form.addEventListener('submit', async (e) => {
-   e.preventDefault();
-   
-   const name = form.name.value.trim();
-   const email = form.email.value.trim();
-   const telegram = form.telegram.value.trim();
-   const uid = form.uid.value.trim();
-   const screenshot = form.screenshot.value.trim();
-   
-   const abedonID = 'ABN' + Date.now().toString().slice(-6);
-   
-   const data = {
-   abedonID,
-   name,
-   email,
-   telegram,
-   uid,
-   screenshot,
-   time: new Date().toISOString()
-   };
-   
-   try {
-   // Here you can implement the code to save data to your Firestore or any database
-   // Example: await addDoc(collection(db, "bonus_claims"), data);
-   msg.innerHTML = `✅ <b>আপনার বোনাস দাবির অনুরোধ সফলভাবে গ্রহণ করা হয়েছে!</b><br>⏳ অনুগ্রহ করে কিছুক্ষণ ধৈর্য ধরে অপেক্ষা করুন...<br><br>❤️ ধন্যবাদ আপনাকে!<br><br>আবেদন নাম্বার: <b>${abedonID}</b>`;
-   form.reset();
-   } catch (error) {
-   msg.innerText = "❌ অনুগ্রহ করে পরে আবার চেষ্টা করুন।";
-   }
-   });
-   
-   window.showCreateAccount = () => {
-   document.getElementById('createAccount').classList.remove('hidden');
-   document.getElementById('claimForm').classList.add('hidden');
-   };
-   
-   window.showClaimBonus = () => {
-   document.getElementById('claimForm').classList.remove('hidden');
-   document.getElementById('createAccount').classList.add('hidden');
-   };
-   </script>
-   </body>
-   </html>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Giveaway</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali&display=swap" rel="stylesheet">
+  <style>
+    .swygen-wrapper {
+      font-family: 'Noto Sans Bengali', sans-serif;
+      background: linear-gradient(to right, #1f1c2c, #928dab);
+      padding: 20px;
+      border-radius: 20px;
+      color: white;
+      max-width: 95%;
+      margin: 20px auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+    .swygen-container { text-align: center; }
+    .swygen-title {
+      font-size: 22px;
+      background: linear-gradient(to right, #ff9966, #ff5e62);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .swygen-gift {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .swygen-gift img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 5px rgba(255,255,255,0.7));
+    }
+    .swygen-gift span {
+      background: linear-gradient(to right, #00f260, #0575e6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: bold;
+    }
+    .swygen-text {
+      font-size: 15px;
+      margin: 10px 0;
+    }
+    .swygen-btn {
+      padding: 10px 20px;
+      margin: 6px;
+      font-size: 14px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    }
+    .swygen-main-btn {
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      color: white;
+    }
+    .swygen-main-btn:hover {
+      box-shadow: 0 0 15px #ff4b2b;
+      transform: scale(1.05);
+    }
+    .swygen-yes-btn { background: #2ecc71; color: white; }
+    .swygen-no-btn { background: #e74c3c; color: white; }
+    .swygen-link-btn {
+      background: #3498db;
+      color: white;
+      text-decoration: none;
+    }
+    .swygen-apply-btn {
+      background: linear-gradient(to right, #f7971e, #ffd200);
+      color: black;
+      text-decoration: none;
+    }
+    .swygen-hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <div id="giveaway-swygen" class="swygen-wrapper">
+    <div class="swygen-container">
+      <h2 class="swygen-title">ফ্রি Giveaway অফার</h2>
+
+      <div class="swygen-gift">
+        <img src="https://assets.onecompiler.app/43ea4pg72/43eagtd2s/robot.png" alt="Gift">
+        <span>A gift from Swygen</span>
+      </div>
+
+      <p class="swygen-text">অফার পেতে দ্রুত একাউন্ট তৈরি করুন</p>
+      <button class="swygen-btn swygen-main-btn" onclick="swygenShowStep1()">এখানে ক্লিক করুন</button>
+
+      <div id="swygen-step1" class="swygen-hidden">
+        <p class="swygen-text">এই অফারটা শুধুমাত্র তাদের জন্য যারা আমাদের লিংক দিয়ে একাউন্ট খুলেছেন।</p>
+        <button class="swygen-btn swygen-no-btn" onclick="swygenShowStep2()">না</button>
+        <button class="swygen-btn swygen-yes-btn" onclick="swygenShowStep3()">হ্যাঁ</button>
+      </div>
+
+      <div id="swygen-step2" class="swygen-hidden">
+        <p class="swygen-text">Go অপশন এ ক্লিক করুন এবং HGZY GAME এ সঠিক ভাবে একাউন্ট তৈরি করুন। এরপর আপনার আইডির UID এবং স্ক্রিনশট নিয়ে নিন।</p>
+        <a href="https://wa.me/message/BQ77IMY2MHW6E1" class="swygen-btn swygen-link-btn" target="_blank">Go</a>
+      </div>
+
+      <div id="swygen-step3" class="swygen-hidden">
+        <p class="swygen-text">ধন্যবাদ আমাদের লিংক দিয়ে একাউন্ট খোলার জন্য!</p>
+        <p class="swygen-text">Apply বাটনে ক্লিক করে Giveaway Apply করুন এবং সঠিক তথ্য সাবমিট করুন। আপনি ১০০/২০০/৩০০ টাকা পর্যন্ত ফ্রি Giveaway পেতে পারেন।</p>
+        <a href="https://demo-by-swygen.netlify.app" class="swygen-btn swygen-apply-btn" target="_blank">Apply</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function swygenShowStep1() {
+      document.getElementById('swygen-step1').classList.remove('swygen-hidden');
+      document.getElementById('swygen-step2').classList.add('swygen-hidden');
+      document.getElementById('swygen-step3').classList.add('swygen-hidden');
+    }
+    function swygenShowStep2() {
+      document.getElementById('swygen-step2').classList.remove('swygen-hidden');
+      document.getElementById('swygen-step3').classList.add('swygen-hidden');
+    }
+    function swygenShowStep3() {
+      document.getElementById('swygen-step3').classList.remove('swygen-hidden');
+      document.getElementById('swygen-step2').classList.add('swygen-hidden');
+    }
+  </script>
+
+</body>
+</html>
    <script>
   const form = document.getElementById("feedbackForm");
   const message = document.getElementById("submitMessage");
